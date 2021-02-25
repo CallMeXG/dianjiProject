@@ -34,7 +34,7 @@
 		<div style="clear: both;"></div>
 		<div id="APPScanDiv" style="text-align: center;margin-top: 30px;display: none;">
 			<p>扫面下面的二维码，推荐好友安装APP</p>
-			<p>安装密码: 000</p>
+			<!-- <p>安装密码: 000</p> -->
 			<img id="APPScan" width="80%" height="80%" />
 		</div>
 		<br />
@@ -62,7 +62,7 @@
 			}
 			//本地版本号,版本code,版本类型,
 			//升级的时候,只需要修改以下三个变量
-			var strLocalVersion = "1.13";
+			// var strLocalVersion = "1.13";
 			
 			// var strLocalVersionCode = 1994;
 			//先见 Android
@@ -86,8 +86,8 @@
 			//app下载地址
 			var strDownLoadURL = '';
 			
-			// var strBaseURl = "http://39.106.180.14:1111/";
-			var strBaseURl = "http://47.94.166.103:1111/";
+			var strBaseURl = "http://39.106.180.14:1111/";
+			// var strBaseURl = "http://47.94.166.103:1111/";
 
 			var strBaseInterface = "app/commen_gain_last_version";
 
@@ -105,7 +105,7 @@
 						if (typeof(respData.data) != "undefined") {
 							var objResp = respData.data
 							//如果请求的结果中   version_code 大于本地code,说明需要更新,否则不需要更新
-							if (objResp.version_code > strVersionCodeLocal) {
+							if (parseInt(objResp.version_code) > parseInt(strVersionCodeLocal)) {
 								document.getElementById("isNewAPP").style.display = "none"
 								document.getElementById('needUpdate').style.display = 'block'
 

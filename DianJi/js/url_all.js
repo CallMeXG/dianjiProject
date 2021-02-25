@@ -2,14 +2,14 @@
 
 //服务器地址
 // var url = 'http://192.168.4.29:8080/server_appapi/';
-// var url = 'http://192.168.18.203:8080/server_appapi/';
+var url = 'http://192.168.18.203:8080/server_appapi/';
 
 
 //本地测试服务器地址
 // var url = 'http://192.168.4.182:8080/server_appapi/';
 
 //测试服务器地址
-   var url = 'http://39.106.180.14:1111/';
+   // var url = 'http://39.106.180.14:1111/';
 //生产服务器地址
 // var url = 'http://47.94.166.103:1111/';
 // 
@@ -19,6 +19,56 @@
 
 var strLocalVersion = '1.14.10';
 var strLocalVersionCode = 2006;
+
+
+
+//先见 Android
+// var strAPPType = "AndroidPrefoco";
+//先见 iOS
+// var strAPPType = "iOSPrefoco";
+//嘉轩Android
+var strAPPType = "AndroidJiaXuan";
+//嘉轩iOS
+// var strAPPType = "iOSJiaXuan";
+//Android 中材高新
+// var strAPPType = "AndroidZhongCai";
+//Android 无logo版本
+// var strAPPType = "AndroidNOLogo";
+
+var strUpdateHtml = "";
+if(strAPPType == "AndroidPrefoco"){
+	strUpdateHtml = "androidxianjia.html";
+}
+if(strAPPType == "iOSPrefoco"){
+	strUpdateHtml = "iosxianjian.html";
+}
+if(strAPPType == "AndroidJiaXuan"){
+	strUpdateHtml = "androidjiaxuan.html";
+}
+if(strAPPType == "iOSJiaXuan"){
+	strUpdateHtml = "iosjiaxuan.html";
+}
+if(strAPPType == "AndroidZhongCai"){
+	strUpdateHtml = "androidzhongcai.html";
+}
+if(strAPPType == "AndroidNOLogo"){
+	strUpdateHtml = "androidnologo.html";
+}
+		
+		
+//各版本检查更新的html页面
+//先见安卓版本
+// var strUpdateHtml = "androidxianjia.html";
+// //先见iOS版本
+// var strUpdateHtml = "iosxianjian.html";
+// //嘉轩安卓版本
+// var strUpdateHtml = "androidjiaxuan.html";
+// //嘉轩iOS版本
+// var strUpdateHtml = "iosjiaxuan.html";
+// //无logo安卓版本
+// var strUpdateHtml = "androidnologo.html";
+// //中材高新安卓版本
+// var strUpdateHtml = "androidzhongcai.html";
              
 //登录接口
 var login_Interface= url + 'user/commen_login';

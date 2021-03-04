@@ -1671,7 +1671,7 @@ function finshBtnClickReturnData() {
 		paramData.strLoginToken = localStorage.getItem("strLoginToken");
 		paramData.devices_no = deviceId;
 		if (companyID != undefined) {
-			paramData.company_id = companyID;
+			paramData.device_company_id = companyID;
 		}
 		else{
 			let tempCom_id = ''
@@ -1682,11 +1682,12 @@ function finshBtnClickReturnData() {
 				} 
 			}
 			
-			paramData.company_id = tempCom_id;
+			paramData.device_company_id = tempCom_id;
 		}
 		if (regionID != undefined) {
 			paramData.region_id = regionID;
 		}
+		paramData.company_id = localStorage.getItem('company_id')
 
 
 		//设备名称

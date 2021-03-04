@@ -2,11 +2,11 @@
     "@platforms" : [ "android", "iPhone", "iPad" ],
     "id" : "H5BF4D615",
     /*应用的标识，创建应用时自动生成，勿手动修改*/
-    "name" : "机电卫士(测服)",
+    "name" : "机电卫士",
     /*应用名称，程序桌面图标名称*/
     "version" : {
-        "name" : "1.14.10", /*应用版本名称*/
-        "code" : 2006
+        "name" : "1.14.11", /*应用版本名称*/
+        "code" : 2007
     },
     "description" : "",
     /*应用描述信息*/
@@ -160,7 +160,7 @@
                         "spotlight" : "unpackage/res/icons/40x40.png",
                         "spotlight@2x" : "unpackage/res/icons/80x80.png"
                     },
-                    "appstore" : "DianJi/img/11111.png"
+                    "appstore" : "unpackage/res/icons/1024x1024.png"
                 },
                 "android" : {
                     /*iPad iOS7程序图标，分辨率：76x76*//*iPad iOS7高分屏程序图标，分辨率：152x152*/

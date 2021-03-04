@@ -214,7 +214,8 @@
                         "portrait-896h@2x" : "",
                         "portrait-896h@3x" : ""
                     }
-                }
+                },
+                "androidStyle" : "default"
             },
             "plugins" : {
                 "ad" : {}

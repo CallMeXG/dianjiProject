@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>人工诊断列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css" />
+		<link rel="stylesheet" href="css/iconfont.css" />
+		<script src="js/vue.js"></script>
+		<script src="js/JQAutoTextarea.js"></script>
+		<style type="text/css">
+			.test_box {
+				/*width: 400px;*/
+				min-height: 20px;
+				max-height: 300px;
+				_height: 120px;
+				margin-left: auto;
+				margin-right: auto;
+				padding: 3px;
+				outline: 0;
+				border: 1px solid #a0b3d6;
+				font-size: 12px;
+				word-wrap: break-word;
+				overflow-x: hidden;
+				overflow-y: auto;
+				_overflow-y: visible;
+			}
+
+			.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item {
+				border-bottom: none !important;
+			}
+
+
+			.list-maintenance-index {
+				width: 100%;
+				margin-bottom: 10px;
+				padding: 10px;
+				background-color: #FFFFFF;
+			}
+
+			.note-text-div {
+				margin-top: 10px;
+				color: gray;
+			}
+
+			.list-maintenance-index .time {
+				float: right;
+			}
+
+			.list-maintenance-index .user {
+				float: left;
+			}
+
+			.item-button {
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+			}
+
+			.item-line {
+				margin: 0 10px;
+				height: 1px;
+				background-color: #d6d9d9;
+			}
+
+			.popover-device-status-back {
+				width: 100%;
+				height: 100%;
+				z-index: 99;
+				background-color: rgba(0, 0, 0, 0.7);
+				position: fixed;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.popover-device-status-back .content {
+				width: 80%;
+				height: 360px;
+				border-radius: 10px;
+				background-color: #FFFFFF;
+			}
+
+			.popover-device-status-back .content .title {
+				text-align: center;
+				height: 40px;
+				line-height: 40px;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+				background-color: #e3e6ef;
+				color: black;
+			}
+
+			.device-number {
+				padding-left: 20px;
+			}
+
+			.popover-device-status-back .content textarea {
+				width: calc(100% - 40px);
+				margin-left: 20px;
+				padding: 10px;
+				font-size: 14px;
+			}
+
+			.popover-device-status-back .content .submit-button {
+				width: calc(100% - 40px);
+				margin-left: 20px;
+				background-color: #524598;
+				color: #FFFFFF;
+				border-radius: 20px;
+			}
+
+			.device-state {
+				width: calc(100% - 100px);
+				border: 1px solid #d6d9d9;
+				line-height: 25px;
+				text-align: center;
+				display: inline-block;
+				height: 25px;
+				border-radius: 5px;
+			}
+
+			.textarea-number {
+				text-align: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="popover" class="mui-popover" style="min-height: 200px;">
+			<div style="margin-left: 10px;margin-right: 10px;">
+				<p style="text-align: center;margin-top: 15px;">诊断申请</p>
+				<p style="text-align: center;">您正在申请远程诊断，是否确认申请？</p>
+				<p style="margin-top: -5px;font-size: 11px;color: orange;">注：请在下面输入框中输入问题描述（选填）</p>
+				<textarea id="textarea" style="font-size: 12px;min-height: 50px;" maxlength="144"></textarea>
+				<!--<div class="test_box" contenteditable="true"></div>-->
+				<span id="textCount" style="float: right;color: gray;font-size: 11px;margin-top: -20px;">144/144</span>
+				<br />
+				<br />
+				<button class="mui-btn mui-btn-danger" style="">取消</button>
+				<button class="mui-btn mui-btn-success" style="float: right;">申请</button>
+				<p style="height: 20px;width: 100%;"></p>
+			</div>
+		</div>
+
+		<div id="popover-ds" class="popover-device-status-back" style="display: none;">
+			<div class="content">
+
+				<p class="title">
+					<span style="padding-left: 20px;">设备状态诊断</span>
+					<span style="float: right;font-size: 30px;color: red;" class="mui-icon mui-icon-closeempty" onclick="$('#popover-ds').hide()"></span>
+				</p>
+				<p class="device-number">
+					<span>设备名称：</span>
+					<span>{{deviceName}}</span>
+				</p>
+				<p class="device-number">
+					<span>设备编号：</span>
+					<span>{{deviceNumber}}</span>
+				</p>
+				<p class="device-number">
+					<span>当前设备状态：</span>
+					<span :style="{color: stateColor}">{{oldDeviceStatus}}</span>
+				</p>
+
+				<p class="device-number">
+					<span>设备状态：</span>
+					<span class="device-state" @click="deviceStatusChange">{{deviceState.text}} ▼</span>
+				</p>
+				<!-- <p class="device-number">备注信息：</p> -->
+				<textarea id="ds-textarea" rows="4" placeholder="请输入备注信息" v-model="textareaValue"></textarea>
+				<p class="textarea-number"></p>
+				<button class="submit-button" @click="deviceStatusSubmit">提交</button>
+			</div>
+		</div>
+
+		<header class="mui-bar mui-bar-nav" style="background-color: #524598;">
+			<a style="color: white;" class="mui-icon mui-icon-left-nav mui-action-back mui-pull-left"></a>
+			<h1 class="mui-title" style="color: white;">诊断历史</h1>
+			<a style="margin-top: -5px;" href="#tanchucaidan" class="mui-pull-right">
+				<span class="mui-icon mui-icon-more" style="color: #FFFFFF;"></span>
+			</a>
+
+			<!--<a href="#popover" id="openPopover" class="mui-btn mui-btn-primary mui-btn-block">打开弹出菜单</a>-->
+			<!-- <a id="header_applyArt" href="#popover" style="margin-top: -3px;font-size: 16px;" class="mui-pull-right mui-btn mui-btn-outlined mui-btn-warning">申请诊断</a> -->
+		</header>
+		<div id="tanchucaidan" class="mui-popover" style="width: 200px;">
+			<div class="item-button" onclick="applyZDFun()">申请诊断</div>
+			<div id="device_check_show">
+				<div class="item-line"></div>
+				<div class="item-button" onclick="deviceStatusUpdate()">设备状态诊断</div>
+			</div>
+			
+			<!-- <div class="item-line"></div>
+			<div class="item-button">阈值状态诊断</div> -->
+		</div>
+		<div class="mui-content">
+
+
+			<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1mobile">
+						诊断记录
+					</a>
+					<a class="mui-control-item" href="#item2mobile">
+						维保记录
+					</a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-card" id="cardContentID">
+							<div class="mui-card-header">
+								<span id="artDeviceMes"></span>
+								<button class="mui-btn mui-btn-royal" v-on:click="openCheckAtrList()">诊断报告</button>
+							</div>
+							<div class="mui-card-content">
+								<ul class="mui-table-view">
+									<li class="mui-table-view-cell" v-for="mesItem in message">
+										<div v-on:click="openArtifiDetail(mesItem)">
+
+											<div v-if="mesItem.apply_status == '0'">
+												<p>
+													<span style="float: right;text-align: center;padding-top: 3px;color: #9ACD32;">正在诊断...</span>
+												</p>
+											</div>
+											<div v-if="mesItem.apply_status == '1'">
+												<p>
+													<div v-if="mesItem.ck_result == '1'">
+														<span style="float: right;background-color: #00CD00;width: 40px;color: white;text-align: center;padding-top: 3px;">正常</span>
+													</div>
+													<div v-if="mesItem.ck_result == '2'">
+														<span style="float: right;background-color: #EEEE00;width: 40px;color: gray;text-align: center;padding-top: 3px;">预警</span>
+													</div>
+													<div v-if="mesItem.ck_result == '3'">
+														<span style="float: right;background-color: orange;width: 40px;color: white;text-align: center;padding-top: 3px;">报警</span>
+													</div>
+													<div v-if="mesItem.ck_result == '4'">
+														<span style="float: right;background-color: red;width: 40px;color: white;text-align: center;padding-top: 3px;">严重</span>
+													</div>
+												</p>
+											</div>
+
+											<p>申请人员：{{mesItem.apply_user_phone}}</p>
+
+											<p style="margin-top: 10px;">申请时间：{{mesItem.apply_time.substring(0,19)}}
+												<div v-if="typeof(mesItem.file_path) != 'undefined'">
+													<a class="iconfont icon-baogao" style="float: right;color: gray;font-size: 24px;margin-right: 10px;margin-top: -20px;"></a>
+												</div>
+											</p>
+											<a class="mui-navigate-right" style="float: right;margin-top: 15px;">
+											</a>
+										</div>
+									</li>
+
+								</ul>
+
+							</div>
+						</div>
+						<div class="mui-card">
+							<div class="mui-card-content">
+								<div style="color: gray;text-align: center;margin-top: 50px;">本平台为您提供远程诊断服务</div>
+								<div style="text-align: center;margin-top: 20px;color: gray;font-size: 18px;">如需紧急申请诊断，请联系电话
+									<p style="margin-top:10px;">
+										<a style="font-size: 18px;" href="tel:010-64722397">010-64722397</a>
+									</p>
+									<p style="margin-top: 10px;font-size: 18px;">邮箱</p>
+									<p style="margin-top: 10px;font-size: 18px;">support@prefoco.com</p>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<template v-for="(item, index) in maintenanceList">
+							<div class="list-maintenance-index">
+								<div class="content">
+									{{item.devices_name}} ( {{item.devices_no}} ) -
+									<span v-if="item.action_type == '1'">更换电池</span>
+									<span v-if="item.action_type == '2'">设备维保<span v-if="item.change_type != undefined"> - {{item.change_type}}</span></span>
+								</div>
+								<div class="note-text-div" v-if="item.content.length > 0">
+									备注： {{item.content}}
+								</div>
+								<div style="margin-top: 10px;color: #747578;">
+									<div class="user">维保人员：{{item.userPhone}}</div>
+									<div class="time">{{item.create_time.substring(0,19)}}</div>
+								</div>
+
+								<div style="width: 100%;height: 1px;clear: both;"></div>
+							</div>
+
+						</template>
+
+					</div>
+
+				</div>
+			</div>
+
+
+		</div>
+		<script src="js/url_all.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="js/mui.picker.min.js"></script>
+		<link href="css/mui.picker.css" rel="stylesheet" />
+		<link href="css/mui.poppicker.css" rel="stylesheet" />
+		<script src="js/mui.picker.js"></script>
+		<script src="js/mui.poppicker.js"></script>
+		<script>
+			//点击申请诊断--弹出申请诊断页面
+			function applyZDFun() {
+				mui('#popover').popover('show')
+
+				let screenWidth = $(window).width()
+				let screenHeight = $(window).height()
+				let popWidth = $("#popover").width()
+				let popHeight = $("#popover").height()
+				$('#popover').css('margin-left', (screenWidth - popWidth) / 2 + 'px')
+				$('#popover').css('margin-top', (screenHeight - popHeight) / 2 + 'px')
+			}
+			//点击设备状态诊断 --- 弹出设备状态诊断页面
+			function deviceStatusUpdate() {
+				$('#popover-ds').show()
+				mui('#tanchucaidan').popover('hide')
+			}
+			// //设备状态诊断提交 --- 隐藏诊断页面
+			// function deviceStatusSubmit() {
+			// 	$('#popover-ds').hide()
+			// }
+			
+			var strUserType = localStorage.getItem("userType");
+			if (strUserType < 10) {
+				$("#device_check_show").hide();
+				
+			}
+			if (strUserType > 10) {
+				$("#device_check_show").show();
+			}
+			
+			
+			
+			var objState = {
+				text: '未监测',
+				value: '0'
+			}
+			/*
+			function deviceStatusSubmit(){
+				let params = {
+					apply_user_id: localStorage.strLoginId,
+					apply_user_phone: localStorage.userName,
+					apply_devices_no: localStorage.DeveciId,
+					apply_devices_name:localStorage.DeveciName,
+					ck_user_id: localStorage.strLoginId,
+					ck_user_phone: localStorage.userName,
+					ck_result: objState.value,
+					ck_content: $('#ds-textarea').val(),
+					ck_type: "2",
+				}
+				console.log('=======',JSON.stringify(params))
+				$.ajax({
+					url: commen_add_manual_check_Interface,
+					type: 'POST',
+					success: function(res) {
+						console.log('res====',JSON.stringify(res))
+						if (res.status == 'SUCCESS') {
+							
+						}
+					},
+					error: function(error){
+						console.log('err====',JSON.stringify(error))
+					}
+				})
+			}//*/
+
+
+
+			mui.plusReady(function() {
+
+				var deviceStatusApp = new Vue({
+					el: '#popover-ds',
+					data() {
+						return {
+							deviceName: localStorage.DeveciName,
+							deviceNumber: localStorage.DeveciId,
+							deviceState: {
+								text: '未监测',
+								value: '0'
+							},
+							oldDeviceStatus: "",
+							stateColor: 'gray',
+							textareaValue: "",
+						}
+					},
+					mounted() {
+
+						let strResult = localStorage.getItem('ck_result');
+						let strLabel = localStorage.getItem('label_status');
+						if (strResult == '0' || strResult == undefined || strResult == 'undefined') {
+							this.oldDeviceStatus = "未监测";
+							this.stateColor = 'gray';
+						}
+						if (strResult == '1') {
+							this.oldDeviceStatus = "正常";
+							this.stateColor = '#00CD00';
+						}
+						if (strResult == '2') {
+							this.oldDeviceStatus = strLabel;
+							this.stateColor = '#EEEE00';
+						}
+						if (strResult == '3') {
+							this.oldDeviceStatus = strLabel;
+							this.stateColor = 'orange';
+						}
+						if (strResult == '4') {
+							this.oldDeviceStatus = strLabel;
+							this.stateColor = 'red';
+						}
+
+
+					},
+					methods: {
+						deviceStatusChange() {
+							var userPicker = new mui.PopPicker();
+							var setdataArray = new Array();
+							userPicker.setData([{
+									text: '未监测',
+									value: '0'
+								},{
+									text: '正常',
+									value: '1'
+								},
+								{
+									text: '预警',
+									value: '2'
+								},
+								{
+									text: '告警',
+									value: '3'
+								},
+								{
+									text: '危险',
+									value: '4'
+								}
+							]);
+							const that = this;
+							userPicker.show(function(items) {
+								that.deviceState = items[0]
+								objState = items[0]
+							});
+						},
+						//设备状态诊断提交 --- 隐藏诊断页面
+						///*
+						deviceStatusSubmit() {
+							
+							let params = {
+								apply_user_id: localStorage.strLoginId,
+								apply_user_phone: localStorage.userName,
+								apply_devices_no: this.deviceNumber,
+								apply_devices_name: this.deviceName,
+								ck_user_id: localStorage.strLoginId,
+								ck_user_phone: localStorage.userName,
+								ck_result: this.deviceState.value,
+								ck_content: this.textareaValue,
+								ck_type: "1",
+							}
+							
+							$.ajax({
+								url: commen_add_manual_check_Interface,
+								type: 'POST',
+								dataType: 'json',
+								data: params,
+								success: function(res) {
+									console.log('res====',JSON.stringify(res))
+									if (res.status == 'SUCCESS') {
+										$('#popover-ds').hide()
+										mui.toast("修改完成")
+									}
+								},
+								error: function(error){
+									console.log('err====',JSON.stringify(error))
+								}
+							})
+							
+							
+							
+							
+						}
+						//*/
+					}
+				})
+				
+				
+
+
+				var vueApp = new Vue({
+					el: '#item2mobile',
+					data() {
+						return {
+							maintenanceList: []
+						}
+					},
+					methods: {
+
+					}
+				})
+
+				$.ajax({
+					url: commen_gain_repairlistbydevice_Interface,
+					methods: 'get',
+					dataType: 'json',
+					data: {
+						devices_no: localStorage.DeveciId
+					},
+					success: function(res) {
+						if (res.status == 'SUCCESS') {
+							vueApp.$data.maintenanceList = res.data
+						}
+					}
+				})
+
+
+
+				var dataList = [];
+
+
+				$('textarea').on('input propertychange', function() {
+					var textAreaCount = $('textarea').val().length;
+					$('#textCount').html(textAreaCount + '/144');
+				})
+
+				$('.mui-btn-success').on('tap', function() {
+
+					mui('#popover').popover('toggle');
+					if (dataList.length > 0) {
+						var ifArray = new Array();
+						for (var i = 0; i < dataList.length; i++) {
+							ifArray.push(dataList[i].apply_status);
+						}
+						if (ifArray.indexOf('0') == -1) {
+							applyCheck();
+						} else {
+							mui.alert('您已有正在处理的诊断申请，请在诊断结束后再申请诊断！');
+						}
+					}
+					if (dataList.length == 0) {
+						applyCheck();
+					}
+				});
+				$('.mui-btn-danger').on('tap', function() {
+					mui('#popover').popover('toggle');
+				});
+
+				// textarea 自适应高度
+				function makeExpandingArea(el) {
+					var setStyle = function(el) {
+						el.style.height = 'auto';
+						el.style.height = el.scrollHeight + 'px';
+					}
+					var delayedResize = function(el) {
+						window.setTimeout(function() {
+								setStyle(el)
+							},
+							0);
+					}
+					if (el.addEventListener) {
+						el.addEventListener('input', function() {
+							setStyle(el)
+						}, false);
+						setStyle(el)
+					} else if (el.attachEvent) {
+						el.attachEvent('onpropertychange', function() {
+							setStyle(el)
+						});
+						setStyle(el)
+					}
+					if (window.VBArray && window.addEventListener) { //IE9  
+						el.attachEvent("onkeydown", function() {
+							var key = window.event.keyCode;
+							if (key == 8 || key == 46) delayedResize(el);
+
+						});
+						el.attachEvent("oncut", function() {
+							delayedResize(el);
+						}); //处理粘贴  
+					}
+				}
+				makeExpandingArea(textarea);
+
+				getDataList();
+				//获取数据列表
+				function getDataList() {
+					var waitings = plus.nativeUI.showWaiting();
+					$.ajax({
+						type: "get",
+						url: new_commen_gain_manual_list_Interface,
+						async: true,
+						data: {
+							apply_devices_no: localStorage.DeveciId
+						},
+						dataType: 'json',
+						success: function(respData) {
+							console.log('list==',JSON.stringify(respData))
+							waitings.close();
+							if (respData.status == "SUCCESS") {
+								cardContent.message = respData.data;
+								dataList = respData.data;
+							}
+						},
+						error: function(error) {
+							waitings.close();
+							console.log(error)
+						}
+					});
+				}
+
+				//插入设备名称和设备编号
+				console.log("------====" + localStorage.DeveciName)
+				$('#artDeviceMes').html(localStorage.DeveciName + '：' + localStorage.DeveciId);
+
+				//申请人工诊断
+				function applyCheck() {
+					var waitings = plus.nativeUI.showWaiting();
+					$.ajax({
+						type: "get",
+						url: new_commen_apply_check_device_Interface,
+						async: true,
+						data: {
+							apply_user_id: localStorage.strLoginId,
+							apply_user_phone: localStorage.userName,
+							apply_devices_no: localStorage.DeveciId,
+							apply_info: $('textarea').val(),
+							apply_devices_name: localStorage.DeveciName
+						},
+						dataType: 'json',
+						success: function(respData) {
+							waitings.close();
+							if (respData.status == "SUCCESS") {
+								// mui('#popover').popover('toggle');
+
+								mui.toast("您已经成功提交远程诊断申请!");
+								setTimeout(function() {
+									getDataList();
+								}, 1000);
+							} else {
+								mui.alert('申请失败，请重试！');
+							}
+						},
+						error: function() {
+							waitings.close();
+							mui.alert('网络失败，请重试！');
+						}
+					});
+				}
+
+				var cardContent = new Vue({
+					el: '#cardContentID',
+					data: {
+						message: []
+					},
+					methods: {
+
+						//进入报告详情
+						openArtifiDetail(mesItem) {
+							mui.openWindow({
+								url: 'artificialcheck.html',
+								extras: {
+									message: mesItem
+								}
+							})
+						},
+
+						//查看报告
+						openCheckAtrList() {
+							mui.openWindow('artificialcheckhistory.html')
+						},
+
+					}
+				})
+			})
+		</script>
+	</body>
+
+</html>

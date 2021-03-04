@@ -473,7 +473,6 @@ mui.plusReady(function() {
 				
 				if (msg.status == "SUCCESS") {
 					if (typeof(msg.data) != "undefined") {
-						localStorage.setItem('ActiveMZDevice', JSON.stringify(msg.data));
 						setUIForCPX(msg.data, index);
 					}
 				}
@@ -906,9 +905,12 @@ mui.plusReady(function() {
 			url: commen_gain_device_detail_Interface,
 			dataType: 'json',
 			success: function(msg) {
+				console.log('msg===',JSON.stringify(msg))
 				plus.nativeUI.closeWaiting();
 				if (msg.status == "SUCCESS") {
 					let info = msg.data;
+					localStorage.setItem('ActiveMZDevice', JSON.stringify(msg.data));
+					
 					deviceCompanyID = info.company_id;
 					deMainVue.$data.devNameCus = isUndefined(info, 'devices_name') + ' ( ' + isUndefined(info, 'devices_no') +
 						' ) ';
@@ -956,6 +958,8 @@ mui.plusReady(function() {
 				plus.nativeUI.closeWaiting();
 				if (msg.status == "SUCCESS") {
 					var length = 0;
+					localStorage.setItem('ActiveMZDevice', JSON.stringify(msg.data));
+					
 					deviceCompanyID = msg.data.company_id;
 					if (msg.data.photo_list != null) {
 						length = msg.data.photo_list.length;

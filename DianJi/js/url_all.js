@@ -27,9 +27,9 @@ var strLocalVersionCode = 2007;
 //先见 iOS
 // var strAPPType = "iOSPrefoco";
 //嘉轩Android
-var strAPPType = "AndroidJiaXuan";
+// var strAPPType = "AndroidJiaXuan";
 //嘉轩iOS
-// var strAPPType = "iOSJiaXuan";
+var strAPPType = "iOSJiaXuan";
 //Android 中材高新
 // var strAPPType = "AndroidZhongCai";
 //Android 无logo版本

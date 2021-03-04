@@ -1,7 +1,7 @@
 # dianjiProject
 
 
-这是嘉轩Android版本
+这是嘉轩iOS版本
 
 
 每次打包版本需要修改的内容

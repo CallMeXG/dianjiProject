@@ -1,11 +1,8 @@
 # dianjiProject
 
-<<<<<<< HEAD
+
 这是嘉轩Android版本
-=======
-这是master主干部分
-修改时在该主干进行修改，在其他分支上进行更新
->>>>>>> effa015c1fcb14971a50fce33c8cc6e96b0be418
+
 
 每次打包版本需要修改的内容
 

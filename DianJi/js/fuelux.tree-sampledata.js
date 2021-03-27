@@ -730,10 +730,10 @@ mui.plusReady(function() {
 				sensorStr += '<li class="mui-table-view-cell">安装位置：' + isUndefined(sensorData, 'install_xy') + '</li>';
 				sensorStr += '<li class="mui-table-view-cell">MODBUS地址：' + sensorData.topology_xy + '</li>';
 				sensorStr += '<li class="mui-table-view-cell">传感器状态：' + chuanganqiStatus(sensorData.sensor_status) + '</li>';
-				if (sensorData.sensorType != undefined && sensorData.sensorType == 'V') {
-					sensorStr += '<li class="mui-table-view-cell">振动传感器灵敏度：' + isUndefined(sensorData, 'sensitivity') + '</li>';
-				}
-				sensorStr += '<li class="mui-table-view-cell">温度传感器灵敏度：' + isUndefined(sensorData, 'sensitives') + '</li>';
+				// if (sensorData.sensorType != undefined && sensorData.sensorType == 'V') {
+				// 	sensorStr += '<li class="mui-table-view-cell">振动传感器灵敏度：' + isUndefined(sensorData, 'sensitives') + '</li>';
+				// }
+				// sensorStr += '<li class="mui-table-view-cell">温度传感器灵敏度：' + isUndefined(sensorData, 'sensitivity') + '</li>';
 
 				if (sensorData.alarm_judge == '1') {
 					sensorStr +=

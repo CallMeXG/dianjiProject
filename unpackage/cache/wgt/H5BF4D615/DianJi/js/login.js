@@ -25,6 +25,8 @@ $("#login_btn").click(function() {
 	
 	///*
 	
+	console.log('-----',login_Interface)
+	
 	var phone = $("#login_phone").val();
 	var pwd = $("#login_pwd").val();
 	var phoneTest = /^1[34578]\d{9}$/;
@@ -49,6 +51,8 @@ $("#login_btn").click(function() {
 			},
 			dataType: 'json',
 			success: function(respData) {
+				
+				console.log('login====',JSON.stringify(respData))
 
 
 				if(respData.status == "SUCCESS") {

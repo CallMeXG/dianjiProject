@@ -115,6 +115,7 @@
 
 			//设备信息
 			var obj_device = JSON.parse(localStorage.getItem('ActiveMZDevice'));
+			// console.log('data===+++++++=',localStorage.getItem('ActiveMZDevice'))
 			var addDevice = new Vue({
 				el: '#deviceAddID',
 				data: {
@@ -268,6 +269,7 @@
 					},
 					dataType: 'json',
 					success: function(msg) {
+						console.log('data====',JSON.stringify(msg))
 						if (msg.status == "SUCCESS") {
 							setDataToHtml(msg.data);
 							regionData = msg.data;
@@ -421,9 +423,11 @@
 									devices_name: addDevice.deviceMessage.devices_name,
 									work_status: '0',
 									commen_json: JSON.stringify(json_commen),
-									company_id: localStorage.getItem("company_id")
+									company_id: localStorage.getItem("company_id"),
+									device_company_id: addDevice.deviceMessage.company_id
+									// company_id: localStorage.getItem("company_id")
 								}
-
+								console.log('这里是master')
 
 								console.log('=======================' + JSON.stringify(commenParam))
 								///*
@@ -450,9 +454,10 @@
 												async: true,
 												data: postParam,
 												dataType: 'json',
-												success: function(postMsg) {
+												success: function(postMsgAdd) {
+													console.log("postMsgAdd===",JSON.stringify(postMsgAdd))
 													plus.nativeUI.closeWaiting();
-													if (postMsg.status == 'SUCCESS') {
+													if (postMsgAdd.status == 'SUCCESS') {
 														mui.toast('激活成功！');
 														mui.openWindow({
 															url: 'DeviceDetail.html',
@@ -469,7 +474,7 @@
 											});
 
 										} else {
-
+											mui.alert(postMsg.message)
 										}
 									},
 									error: function() {

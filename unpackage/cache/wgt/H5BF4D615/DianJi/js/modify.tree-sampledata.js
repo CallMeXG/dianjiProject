@@ -182,7 +182,7 @@ function sensorData(emeId, i) {
 		dataType: 'json',
 		success: function(msg) {
 			var data = msg.data;
-			//console.log('data====',JSON.stringify(data))
+			// console.log('data====',JSON.stringify(data))
 			sim_sensorList.push(msg.data)
 			if (typeof(data) != "undefined") {
 
@@ -558,14 +558,14 @@ function sensorData(emeId, i) {
 								'</span></div>';
 						}
 
-						if (senData[j].sensitives != undefined) {
-							sensorStr += '<div class="modifyCom"><span class="name">温度传感器灵敏度：</span><span class="val">' + senData[j].sensitives +
-								'</span></div>';
+						// if (senData[j].sensitivity != undefined) {
+						// 	sensorStr += '<div class="modifyCom"><span class="name">温度传感器灵敏度：</span><span class="val">' + senData[j].sensitivity +
+						// 		'</span></div>';
 
-						} else {
-							sensorStr += '<div class="modifyCom"><span class="name">温度传感器灵敏度：</span><span class="val">' + "----" +
-								'</span></div>';
-						}
+						// } else {
+						// 	sensorStr += '<div class="modifyCom"><span class="name">温度传感器灵敏度：</span><span class="val">' + "----" +
+						// 		'</span></div>';
+						// }
 
 
 						if (senData[j].sensorType != undefined && senData[j].sensorType == 'V') {
@@ -577,22 +577,25 @@ function sensorData(emeId, i) {
 								sensorStr += '<div class="modifyCom"><span class="name">振动探头名称：</span><span class="emeId">' + "----" +
 									'</span></div>';
 							}
-							if (senData[j].sensitivity != undefined) {
-								sensorStr += '<div class="modifyCom"><span class="name">振动传感器灵敏度：</span><span class="val">' + senData[j].sensitivity +
-									'</span></div>';
-							} else {
-								sensorStr += '<div class="modifyCom"><span class="name">振动传感器灵敏度：</span><span class="val">' + "----" +
-									'</span></div>';
-							}
+							// if (senData[j].sensitives != undefined) {
+							// 	sensorStr += '<div class="modifyCom"><span class="name">振动传感器灵敏度：</span><span class="val">' + senData[j].sensitives +
+							// 		'</span></div>';
+							// } else {
+							// 	sensorStr += '<div class="modifyCom"><span class="name">振动传感器灵敏度：</span><span class="val">' + "----" +
+							// 		'</span></div>';
+							// }
 						}
+						// console.log("senData===",JSON.stringify(senData[j]));
+						
 						if (senData[j].install_xy != undefined) {
 							sensorStr += '<div class="modifyCom"><span class="modifyFont">安装位置：</span><input id="anzhuang' + i + j +
-								'" type="button" onclick="cedianSelected(' + i + ',' + j + ')" value=' + senData[j].install_xy + ' /></div>';
+								'" type="button" onclick="cedianSelected(' + i + ',' + j +')" value=' + senData[j].install_xy + ' /><span style="display:none">' + senData[j].install_id + '</span><span style="display:none">' + senData[j].serial_no + '</span><span style="display:none">' + senData[j].sensor_no + '</span></div>';
 
 						} else {
 							sensorStr += '<div class="modifyCom"><span class="modifyFont">安装位置：</span><input id="anzhuang' + i + j +
-								'" type="button" onclick="cedianSelected(' + i + ',' + j + ')"  class="sensorLocation"/></div>';
+								'" type="button" onclick="cedianSelected(' + i + ',' + j +')"  class="sensorLocation"/><span style="display:none">' + '""' + '</span><span style="display:none">' + senData[j].serial_no + '</span><span style="display:none">' + senData[j].sensor_no + '</span></div>';
 						}
+						
 
 						// selInstallArray
 						var objDefInstall = {
@@ -677,25 +680,7 @@ function sensorData(emeId, i) {
 
 							}
 							let objSettingOption = 'option' + i + j; 
-							console.log('option========',objSettingOption)
 							tempSensorSettingObj[objSettingOption] = senData[j].sensorSampleVO;
-							console.log('temp========',JSON.stringify(tempSensorSettingObj))
-							
-							
-							
-
-							// 							if (senData[j].calibration_coefficient != undefined) {
-							// 								sensorStr +=
-							// 									'<div class="modifyCom"><span class="modifyFont">传感器频率校准系数：</span><input style="width:100px" id="jiaoxishu' +
-							// 									i + '' + j + '" type="text" class="sensorLocation" value=' + senData[j].calibration_coefficient +
-							// 									' /></div>';
-							// 
-							// 							} else {
-							// 								sensorStr +=
-							// 									'<div class="modifyCom"><span class="modifyFont">传感器频率校准系数：</span><input  style="width:100px" id="jiaoxishu' +
-							// 									i + '' + j + '" type="text " class="sensorLocation " /></div>';
-							// 
-							// 							}
 							sensorStr += '</div>'
 						}
 
@@ -1156,41 +1141,81 @@ var newInstallSelArray = new Array();
 
 //测点位置选择
 function cedianSelected(index_1, index_2) {
-	var userPicker = new mui.PopPicker();
-	var strIndex = "anzhuang" + index_1 + index_2;
-	var setdataArray = new Array();
-	setdataArray = installList.slice(0);
-	for (var i = 0; i < setdataArray.length; i++) {
-		if (setdataArray[i].install_index == strIndex) {
-			setdataArray[i].status = "N";
-		}
-	}
-	var new_setdataArray = new Array();
-	for (var j = 0; j < setdataArray.length; j++) {
-		if (setdataArray[j].status == "N") {
-			new_setdataArray.push(setdataArray[j]);
-		}
-	}
 
+	$.ajax({
+		type: "get",
+		url: commen_gain_install_list,
+		async: true,
+		data:{
+			str_devices_no: localStorage.DeveciId,
+			install_id:$("#anzhuang" + index_1 + index_2).next().text()
+		},
+		dataType: "json",
+		success: function(respMsg) {
+			
+			var userPicker = new mui.PopPicker();
+			var setdataArray = new Array();
+			setdataArray = respMsg.data.install_list;
+			
+			var new_setdataArray = new Array();
+			for (var i = 0; i < setdataArray.length; i++) {
+				let obj = setdataArray[i]
+				obj.text = obj.install_xy
+				new_setdataArray.push(obj)
+			}
 
-	userPicker.setData(new_setdataArray);
-	var strid = "anzhuang" + index_1 + index_2;
-	var userResult = document.getElementById(strid);
-	userPicker.show(function(items) {
-		userResult.value = items[0].text;
-		selInsObj[strIndex].new_installXY = items[0].text;
-		selInsObj[strIndex].new_installId = items[0].id;
-		for (var i = 0; i < installList.length; i++) {
-			if (installList[i].id == items[0].id) {
-				installList[i].status = "Y";
-				installList[i].install_index = "anzhuang" + index_1 + index_2;
-			}
-			if (selInsObj[strIndex].old_installId == installList[i].id) {
-				installList[i].status = "N";
-			}
-		}
+			userPicker.setData(new_setdataArray);
+			userPicker.show(function(items) {
+				
+				let postJSON = [{
+					sensorMsgPO:{
+						serial_no: $("#anzhuang" + index_1 + index_2).next().next().text(),
+					sensor_no: $("#anzhuang" + index_1 + index_2).next().next().next().text(),
+					old_install_id: $("#anzhuang" + index_1 + index_2).next().text(),
+					install_xy: items[0].install_xy,
+					install_id: items[0].id
+					}
+				 	
+				}]
+				
+				let tempCom_id = '';
+				let strCompany_name = $('#devices_company').val();
+				for (var i = 0; i < companyArray.length; i++) {
+					if(strCompany_name == companyArray[i].text){
+						tempCom_id = companyArray[i].value;
+						break;
+					} 
+				}
+				
+				let postDataInstall = {
+					strLoginId: localStorage.getItem("strLoginId"),
+					strLoginToken: localStorage.getItem("strLoginToken"),
+					devices_no: localStorage.DeveciId,
+					device_company_id: tempCom_id,
+					company_id: localStorage.getItem('company_id'),
+					// region_id: ,
+					commen_json: JSON.stringify(postJSON)
+				}
+				$.ajax({
+					type: "post",
+					url: commen_update_device_Interface,
+					async: true,
+					data: postDataInstall,
+					dataType: 'json',
+					success: function(respInstall) {
+						if(respInstall.status == "SUCCESS"){
+							$("#anzhuang" + index_1 + index_2).val(items[0].install_xy)
+							$("#anzhuang" + index_1 + index_2).next().text(items[0].id)
+						}
+					},
+					error: function(err) {
+						mui.toast("error：", err)
+					}
+				});
+			});
+		},
+		error: function(error) {}
 	});
-
 }
 
 
@@ -1671,7 +1696,7 @@ function finshBtnClickReturnData() {
 		paramData.strLoginToken = localStorage.getItem("strLoginToken");
 		paramData.devices_no = deviceId;
 		if (companyID != undefined) {
-			paramData.company_id = companyID;
+			paramData.device_company_id = companyID;
 		}
 		else{
 			let tempCom_id = ''
@@ -1682,11 +1707,12 @@ function finshBtnClickReturnData() {
 				} 
 			}
 			
-			paramData.company_id = tempCom_id;
+			paramData.device_company_id = tempCom_id;
 		}
 		if (regionID != undefined) {
 			paramData.region_id = regionID;
 		}
+		paramData.company_id = localStorage.getItem('company_id')
 
 
 		//设备名称
@@ -1961,18 +1987,18 @@ function finshBtnClickReturnData() {
 
 
 					//安装位置
-					var str_j_anzhuang = "anzhuang" + i + j;
-					var objSelIns = selInsObj[str_j_anzhuang];
+					// var str_j_anzhuang = "anzhuang" + i + j;
+					// var objSelIns = selInsObj[str_j_anzhuang];
 
-					if (objSelIns.new_installId != '') {
-						if (objSelIns.old_install_id != '') {
-							sensorObj.old_install_id = selInsObj[str_j_anzhuang].old_installId;
-						}
-						sensorObj.install_xy = selInsObj[str_j_anzhuang].new_installXY;
-						sensorObj.install_id = selInsObj[str_j_anzhuang].new_installId;
-					} else {
-						sensorObj.install_id = selInsObj[str_j_anzhuang].old_installId;
-					}
+					// if (objSelIns.new_installId != '') {
+					// 	if (objSelIns.old_install_id != '') {
+					// 		sensorObj.old_install_id = selInsObj[str_j_anzhuang].old_installId;
+					// 	}
+					// 	sensorObj.install_xy = selInsObj[str_j_anzhuang].new_installXY;
+					// 	sensorObj.install_id = selInsObj[str_j_anzhuang].new_installId;
+					// } else {
+					// 	sensorObj.install_id = selInsObj[str_j_anzhuang].old_installId;
+					// }
 					sensorObj.connect_model = strModelType;
 
 					var obj_commenDic = new Object();
@@ -2078,8 +2104,8 @@ function checkCheckBox(i, j) {
 
 function postData(data) {
 
-	console.log('data======', JSON.stringify(data))
-///*
+// 	console.log('data======', JSON.stringify(data))
+ ///*
 	$.ajax({
 		type: "post",
 		url: commen_update_device_Interface,

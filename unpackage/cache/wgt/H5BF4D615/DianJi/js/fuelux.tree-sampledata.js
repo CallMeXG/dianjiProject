@@ -342,7 +342,7 @@ mui.plusReady(function() {
 		var strUserType = localStorage.getItem("userType");
 
 		if (strUserType < 10 && localStorage.getItem('is_manage') != '1') {
-			mui.alert('您没有权限进行设备信息修改，请先去申请相关权限！', '无访问权限', '我知道了');
+			mui.alert('您没有权限，请先去申请相关权限！', '无访问权限', '我知道了');
 		}
 
 		if (strUserType > 10 || localStorage.getItem('is_manage') == '1') {
@@ -371,7 +371,7 @@ mui.plusReady(function() {
 		//判断权限，是否显示修改信息
 		var strUserType = localStorage.getItem("userType");
 		if (strUserType < 10 && localStorage.getItem('is_manage') != '1') {
-			mui.alert('您没有权限进行设备信息修改，请先去申请相关权限！', '无访问权限', '我知道了');
+			mui.alert('您没有权限，请先去申请相关权限！', '无访问权限', '我知道了');
 		}
 
 		if (strUserType > 10 || localStorage.getItem('is_manage') == '1') {
@@ -386,7 +386,7 @@ mui.plusReady(function() {
 		//判断权限，是否显示修改信息
 		var strUserType = localStorage.getItem("userType");
 		if (strUserType < 10 && localStorage.getItem('is_manage') != '1') {
-			mui.alert('您没有权限进行设备信息修改，请先去申请相关权限！', '无访问权限', '我知道了');
+			mui.alert('您没有权限，请先去申请相关权限！', '无访问权限', '我知道了');
 		}
 		if (strUserType > 10 || localStorage.getItem('is_manage') == '1') {
 			mui('.mui-popover').popover("hide");
@@ -473,7 +473,6 @@ mui.plusReady(function() {
 				
 				if (msg.status == "SUCCESS") {
 					if (typeof(msg.data) != "undefined") {
-						localStorage.setItem('ActiveMZDevice', JSON.stringify(msg.data));
 						setUIForCPX(msg.data, index);
 					}
 				}
@@ -559,6 +558,9 @@ mui.plusReady(function() {
 			simData.serial_no + '\')">更换电池</div></div></div>';
 		sensorStr += '<div class="tree-folder-content" style="display: block;">';
 		sensorStr += '<ul class="mui-table-view" style="margin-left:-20px;">';
+		console.log('----------------yindahua----',isUndefined(simData, 'yhd_name'))
+		sensorStr += '<li class="mui-table-view-cell">采集器名称：' + isUndefined(simData, 'yhd_name') + '</li>';
+		sensorStr += '<li class="mui-table-view-cell">采集器序列号：' + isUndefined(simData, 'yhd_serial_num') + '</li>';
 		sensorStr += '<li class="mui-table-view-cell">Imie：' + isUndefined(simData, 'imei') + '</li>';
 		sensorStr += '<li class="mui-table-view-cell">物联网卡号：' + isUndefined(simData, 'internet_things_no') + '</li>';
 		sensorStr += '<li class="mui-table-view-cell">生产厂商：' + isUndefined(simData, 'produce') + '</li>';
@@ -724,6 +726,9 @@ mui.plusReady(function() {
 					'">传感器:' + isUndefined(sensorData, 'sensor_no') + '</div></div></div>';
 				sensorStr += '<div class="tree-folder-content" style="display: block;">';
 				sensorStr += '<ul class="mui-table-view" style="margin-left:-10px;">';
+				sensorStr += '<li class="mui-table-view-cell">传感器型号：' + isUndefined(sensorData, 'yhd_sensor_model') + '</li>';
+				sensorStr += '<li class="mui-table-view-cell">传感器类型：' + isUndefined(sensorData, 'yhd_sensor_mode') + '</li>';
+				sensorStr += '<li class="mui-table-view-cell">通道号：' + isUndefined(sensorData, 'yhd_channel_num') + '</li>';
 				sensorStr += '<li class="mui-table-view-cell">传感器名称：' + isUndefined(sensorData, 'sensor_name') + '</li>';
 				sensorStr += '<li class="mui-table-view-cell">硬件版本：' + isUndefined(sensorData, 'version') + '</li>';
 				sensorStr += '<li class="mui-table-view-cell">固件版本：' + isUndefined(sensorData, 'fw_version') + '</li>';
@@ -731,10 +736,10 @@ mui.plusReady(function() {
 				sensorStr += '<li class="mui-table-view-cell">安装位置：' + isUndefined(sensorData, 'install_xy') + '</li>';
 				sensorStr += '<li class="mui-table-view-cell">MODBUS地址：' + sensorData.topology_xy + '</li>';
 				sensorStr += '<li class="mui-table-view-cell">传感器状态：' + chuanganqiStatus(sensorData.sensor_status) + '</li>';
-				if (sensorData.sensorType != undefined && sensorData.sensorType == 'V') {
-					sensorStr += '<li class="mui-table-view-cell">振动传感器灵敏度：' + isUndefined(sensorData, 'sensitivity') + '</li>';
-				}
-				sensorStr += '<li class="mui-table-view-cell">温度传感器灵敏度：' + isUndefined(sensorData, 'sensitives') + '</li>';
+				// if (sensorData.sensorType != undefined && sensorData.sensorType == 'V') {
+				// 	sensorStr += '<li class="mui-table-view-cell">振动传感器灵敏度：' + isUndefined(sensorData, 'sensitives') + '</li>';
+				// }
+				// sensorStr += '<li class="mui-table-view-cell">温度传感器灵敏度：' + isUndefined(sensorData, 'sensitivity') + '</li>';
 
 				if (sensorData.alarm_judge == '1') {
 					sensorStr +=
@@ -906,9 +911,12 @@ mui.plusReady(function() {
 			url: commen_gain_device_detail_Interface,
 			dataType: 'json',
 			success: function(msg) {
+				console.log('msg===',JSON.stringify(msg))
 				plus.nativeUI.closeWaiting();
 				if (msg.status == "SUCCESS") {
 					let info = msg.data;
+					localStorage.setItem('ActiveMZDevice', JSON.stringify(msg.data));
+					
 					deviceCompanyID = info.company_id;
 					deMainVue.$data.devNameCus = isUndefined(info, 'devices_name') + ' ( ' + isUndefined(info, 'devices_no') +
 						' ) ';
@@ -956,6 +964,8 @@ mui.plusReady(function() {
 				plus.nativeUI.closeWaiting();
 				if (msg.status == "SUCCESS") {
 					var length = 0;
+					localStorage.setItem('ActiveMZDevice', JSON.stringify(msg.data));
+					
 					deviceCompanyID = msg.data.company_id;
 					if (msg.data.photo_list != null) {
 						length = msg.data.photo_list.length;

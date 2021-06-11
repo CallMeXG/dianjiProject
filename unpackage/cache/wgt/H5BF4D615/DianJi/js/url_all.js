@@ -17,8 +17,8 @@ var url = 'http://47.94.166.103:1111/';
 //var fileUrlHeader = "http://47.94.166.103:3000/group1/";
 
 
-var strLocalVersion = '1.14.15';
-var strLocalVersionCode = 2011;
+var strLocalVersion = '1.14.16';
+var strLocalVersionCode = 2012;
 
 
 

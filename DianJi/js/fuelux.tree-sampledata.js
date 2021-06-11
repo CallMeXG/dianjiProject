@@ -560,7 +560,7 @@ mui.plusReady(function() {
 			simData.serial_no + '\')">更换电池</div></div></div>';
 		sensorStr += '<div class="tree-folder-content" style="display: block;">';
 		sensorStr += '<ul class="mui-table-view" style="margin-left:-20px;">';
-		if (simData.devices_company == 'A') {
+		if (simData.devices_model_type == 'YHD') {
 			sensorStr += '<li class="mui-table-view-cell">采集器名称：' + isUndefined(simData, 'yhd_name') + '</li>';
 			sensorStr += '<li class="mui-table-view-cell">采集器序列号：' + isUndefined(simData, 'yhd_serial_num') +
 				'</li>';
@@ -782,7 +782,7 @@ mui.plusReady(function() {
 				sensorStr += '<div class="tree-folder-content" style="display: block;">';
 				sensorStr += '<ul class="mui-table-view" style="margin-left:-10px;">';
 				
-				if (simData.devices_company == 'A') {
+				if (simData.devices_model_type == 'YHD') {
 					sensorStr += '<li class="mui-table-view-cell">传感器型号：' + isUndefined(sensorData,
 						'yhd_sensor_model') + '</li>';
 					sensorStr += '<li class="mui-table-view-cell">传感器类型：' + isUndefined(sensorData,

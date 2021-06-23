@@ -42,9 +42,14 @@ $(function() {
 					}
 					localStorage.setItem('DeveciId', items.devices_no);
 					localStorage.setItem('DeveciName', items.devices_name);
+					// mui.openWindow({
+					// 	url: 'newDataChart.html',
+					// 	id: 'newDataChart.html'
+					// });
+					
 					mui.openWindow({
-						url: 'newDataChart.html',
-						id: 'newDataChart.html'
+						url: 'Bender/html/bnenderChart.html',
+						id: 'bnenderChart.html'
 					});
 				},
 				open_detail(items) {
@@ -56,10 +61,28 @@ $(function() {
 					}
 					localStorage.setItem('DeveciId', items.devices_no);
 					localStorage.enterPage = "Enter";
-					mui.openWindow({
-						url: 'DeviceDetail.html',
-						id: 'DeviceDetail.html'
-					})
+					console.log('items===',JSON.stringify(items))
+					// if(items.devices_type == 'E' || items.devices_type == 'L'){
+					// 	mui.openWindow({
+					// 		url: 'DeviceDetail.html',
+					// 		id: 'DeviceDetail.html'
+					// 	})
+					// }
+					// else{
+						// if(items.devices_type == 'T'){
+							mui.openWindow({
+								url: 'Bender/html/benderDeviceDetail.html',
+								id: 'benderDeviceDetail.html'
+							})
+						// }
+					// }
+					// if(items.devices_type == 'T'){
+					// 	mui.openWindow({
+					// 		url: 'benderDeviceDetail.html',
+					// 		id: 'benderDeviceDetail.html'
+					// 	})
+					// }
+					
 					//获取父节点的父节点 li
 					var elem = event.target.parentNode.parentNode;
 					//隐藏右滑显示

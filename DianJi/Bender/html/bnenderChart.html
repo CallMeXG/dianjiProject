@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport"
+			content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/common.css" rel="stylesheet" />
+
+		<script src="https://unpkg.com/vue"></script>
+		<script src="https://unpkg.com/http-vue-loader"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.12/lib/index.css" />
+		<!-- 引入样式 -->
+		<link rel="stylesheet" type="text/plain" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<style>
+			html,
+			body {
+				background-color: white;
+			}
+		</style>
+
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav" id="head">
+			<a class=" mui-icon mui-icon-left-nav mui-pull-left" id="DeviceDetailBack"></a>
+			<h1 class="mui-title ">设备详情</h1>
+			<a href="#popover" class="mui-pull-right iconfont icon-xiugai_l"
+				style="margin-top: 5px;font-weight: 700;font-size: 24px;"></a>
+		</header>
+		<div class="mui-content">
+			<div id="my-app">
+				<bnender-chart style="background-color: #f5f5f5;"></bnender-chart>
+			</div>
+		</div>
+
+
+		<!-- 引入 Vue 和 Vant 的 JS 文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6/dist/vue.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vant@2.12/lib/vant.min.js"></script>
+		<script src="../../js/jquery.min.js"></script>
+		<script src="../../js/url_all.js"></script>
+		<script src="../../js/echarts.common.min.js"></script>
+		<!-- 引入组件库 -->
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+		<script type="text/javascript">
+			var deviceTotalData = null;
+			new Vue({
+				el: '#my-app',
+				data:{
+					devicedetailData: null
+				},
+				components: {
+					'bender-device': httpVueLoader('../vue-components/bender-device-content.vue'),
+					'device-detail': httpVueLoader('../vue-components/bender-devicedetail.vue'),
+					'bnender-chart': httpVueLoader('../vue-components/bnener-chart.vue'),
+				}
+			});
+		</script>
+
+
+
+		<script src="../../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			mui.plusReady(function() {
+				$("#DeviceDetailBack").on('tap', function() {
+					if (localStorage.enterPage == "SCAN") {
+						var objBack = plus.webview.currentWebview().opener();
+						mui.fire(objBack, 'reTest');
+						mui.back();
+					} else {
+						mui.back();
+					}
+				})
+			})
+		</script>
+
+
+
+	</body>
+
+</html>

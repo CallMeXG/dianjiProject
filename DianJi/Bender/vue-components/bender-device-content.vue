@@ -62,6 +62,9 @@
 			<span class="item-key">应用场景：</span>
 			<span class="item-value">{{deviceData.use_scenes}}</span>
 		</p>
+		
+		
+		
 		<div class="tree-list-content">
 			<p class="title">拓扑关系</p>
 			<el-collapse>
@@ -128,7 +131,7 @@
 							</span>
 						</p>
 						<p><span>激活时间: </span><span>{{item.active_time}}</span></p>
-						<p><span>最后一次连接服务器时间: </span><span>{{item.connectionVO.connection_time}}</span></p>
+						<!-- <p><span>最后一次连接服务器时间: </span><span>{{item.connectionVO.connection_time}}</span></p> -->
 						<p>
 							<span>工作状态: </span>
 							<span>
@@ -162,7 +165,7 @@
 						<p><span>唤醒时间: </span><span>{{item.notify_time}}</span></p>
 
 						<el-collapse>
-							<el-collapse-item :title="subItem.ios_no"  v-for="(subItem,subIndex) in item.ios685Data">
+							<el-collapse-item :title="subItem.ios_no" v-for="(subItem,subIndex) in item.ios685Data">
 								<div class="col-item-content">
 									<p><span>ISO685名称: </span><span>{{subItem.ios_name}}</span></p>
 									<p><span>生产厂商: </span><span>{{subItem.ios_product}}</span></p>
@@ -196,19 +199,77 @@
 
 				this.deviceData = data
 				this.treeData = []
-				if (data.sim_list != undefined) {
-					for (let i = 0; i < data.sim_list.length; i++) {
-						this.gainTreeData(data.sim_list[i].serial_no)
-					}
+				// if (data.sim_list != undefined) {
+				// 	for (let i = 0; i < data.sim_list.length; i++) {
+				// 		this.gainTreeData(data.sim_list[i].serial_no)
+				// 	}
+				// }
+
+
+				for (let i = 0; i < 2; i++) {
+					this.gainTreeData(i+1)
 				}
+
 
 			},
 			handleNodeClick(data) {
 				console.log(data);
 			},
 			//获取拓扑关系
-			gainTreeData(id) {
+			gainTreeData(url, id) {
 				const that = this;
+				$.ajax({
+					type: 'get',
+					url: '../resouce/sim' + url + '.json',
+					async: true,
+					data: {
+						serial_no: id
+					},
+					dataType: 'json',
+					success: function(msg) {
+						if (msg.status == "SUCCESS") {
+							if (typeof(msg.data) != "undefined") {
+								let datas = msg.data
+								let tempData = {}
+								Object.keys(datas).forEach(function(key) {
+									if (key == 'serial_no') {
+										tempData.serial_no = '---  传感器卡:   ' + datas.serial_no
+									} else {
+										tempData[key] = datas[key]
+									}
+
+									let iso685list = [{
+											ios_no: '---- ISO685： 201425',
+											ios_name: 'ISO685 名称',
+											ios_product: 'BNENDER',
+											ios_xuliehao: '09807162839',
+											ios_tongdaohao: '5',
+											iso_MODBUS: '100'
+										},
+										{
+											ios_no: '---- ISO685： 56789',
+											ios_name: 'ios685 name',
+											ios_product: 'BNENDER',
+											ios_xuliehao: '2545120246',
+											ios_tongdaohao: '10',
+											iso_MODBUS: '105'
+										}
+									]
+
+									tempData.ios685Data = iso685list
+
+								})
+
+
+								console.log('--', tempData)
+
+								that.treeData.push(tempData)
+							}
+						}
+					}
+				})
+
+				/*
 				$.ajax({
 					type: 'get',
 					url: commen_gain_sim_Interface,
@@ -260,6 +321,7 @@
 						}
 					}
 				})
+				//*/
 			}
 		}
 	}
@@ -344,6 +406,7 @@
 		background-color: #f3f3f3;
 		margin-top: 3px;
 		height: 33px;
+		line-height: 33px;
 	}
 
 	.el-collapse-item__wrap {

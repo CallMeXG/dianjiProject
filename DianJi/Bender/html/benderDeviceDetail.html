@@ -13,7 +13,7 @@
 		<script src="https://unpkg.com/http-vue-loader"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.12/lib/index.css" />
 		<!-- 引入样式 -->
-		<link rel="stylesheet" type="text/plain" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<link rel="stylesheet"  href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 		<style>
 			html,
 			body {
@@ -71,8 +71,8 @@
 							type: "get",
 							async: true,
 							data: {
-								str_devices_no: "MZ100005",
-								// str_devices_no: localStorage.getItem('DeveciId')
+								// str_devices_no: "MZ100005",
+								str_devices_no: localStorage.getItem('DeveciId')
 							},
 							url: commen_gain_device_detail_Interface,
 							dataType: 'json',
@@ -81,18 +81,12 @@
 									let data = msg.data;
 									that.devicedetailData = data
 									
-									console.log('cccc===',that.$refs)
-									
 									setTimeout(function() {
 										that.$refs.preImage.settingImagePreviewData(data)
 									}, 500)
 									setTimeout(function() {
-										
-										
-										
 										that.$refs.deviceContent.setDeviceDetailData(data)
 									}, 800)
-									console.log('000---',that.devicedetailData)
 								}
 							}
 						})

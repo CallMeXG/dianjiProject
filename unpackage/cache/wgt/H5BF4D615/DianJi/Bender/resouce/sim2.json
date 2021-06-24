@@ -1,0 +1,127 @@
+{
+	"data": {
+		"id": 10000764,
+		"imei": "861833046699668",
+		"internet_things_no": "1440014900743",
+		"devices_no": "MZ100005",
+		"serial_no": "GA130082",
+		"produce": "先见智控",
+		"pro_bitch": "10",
+		"version": "0.2.1",
+		"update_time": "2020-07-13 10:17:33.0",
+		"software_version": "0.2.F",
+		"upload_time": "2020-10-30 06:48:44",
+		"down_remark": "维护关机",
+		"down_time": "2020-03-30 10:09:55.0",
+		"down_user": "18610534295",
+		"state": "8",
+		"work_status": "0",
+		"conf_user": "18610534295",
+		"led_model": "2",
+		"sim_model": "3",
+		"sim_verison_id": "2",
+		"active_time": "2020-07-13 10:17:49.0",
+		"connect_model": "0",
+		"content": "第二版",
+		"sampling_time": "09:00:00",
+		"upload_time_mode": "09:10:00",
+		"sampling_duration": "00:00:00",
+		"update_duration": "00:00:00",
+		"work_point_json": "{\"sample_time_point\":[\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\"]}",
+		"local_time": "2020-10-30 06:49:11",
+		"signal_intensity": "16",
+		"supply_type": "0",
+		"sensorList": [{
+			"id": 10001339,
+			"sensor_no": "SA130189",
+			"sensor_name": "机电卫士传感器",
+			"version": "03",
+			"fw_version": "f.5.4",
+			"sensitives": "3.9mg/LSB",
+			"topology_xy": "66",
+			"sensor_status": "0",
+			"sampling_model": "出厂模式",
+			"range_data": "±16g",
+			"sampling_number": "4096",
+			"sampling_frequency": "1600",
+			"sampling_accuracy": "13",
+			"working_axis": "111",
+			"calibration_coefficient": "1.000",
+			"sensor_shaft_count": 0,
+			"sensorType": "V",
+			"sensorSampleVO": {
+				"sampling_numList": ["256", "512", "1024", "2048", "4096", "8192"],
+				"sampling_frequencyList": ["200", "400", "800", "1600"],
+				"sapmlingAccuracyAndRangeList": [{
+					"sampling_range": "10",
+					"sampling_accuracy": "±2"
+				}, {
+					"sampling_range": "11",
+					"sampling_accuracy": "±4"
+				}, {
+					"sampling_range": "12",
+					"sampling_accuracy": "±8"
+				}, {
+					"sampling_range": "13",
+					"sampling_accuracy": "±16"
+				}]
+			}
+		}, {
+			"id": 10001350,
+			"sensor_no": "SA130892",
+			"sensor_name": "机电卫士传感器",
+			"version": "03",
+			"fw_version": "f.5.4",
+			"sensitives": "3.9mg/LSB",
+			"topology_xy": "62",
+			"sensor_status": "0",
+			"sampling_model": "出厂模式",
+			"range_data": "±16g",
+			"sampling_number": "4096",
+			"sampling_frequency": "1600",
+			"sampling_accuracy": "13",
+			"working_axis": "111",
+			"calibration_coefficient": "1.000",
+			"sensor_shaft_count": 0,
+			"sensorType": "V",
+			"sensorSampleVO": {
+				"sampling_numList": ["256", "512", "1024", "2048", "4096", "8192"],
+				"sampling_frequencyList": ["200", "400", "800", "1600"],
+				"sapmlingAccuracyAndRangeList": [{
+					"sampling_range": "10",
+					"sampling_accuracy": "±2"
+				}, {
+					"sampling_range": "11",
+					"sampling_accuracy": "±4"
+				}, {
+					"sampling_range": "12",
+					"sampling_accuracy": "±8"
+				}, {
+					"sampling_range": "13",
+					"sampling_accuracy": "±16"
+				}]
+			}
+		}],
+		"connectionVO": {
+			"id": 10000388,
+			"serial_no": "GA130082",
+			"connection_time": "2020-07-19 12:45:21",
+			"release_time": "2020-07-19 12:45:45",
+			"status": "N"
+		},
+		"cell_no": "9CA8\u0000",
+		"electricity": "3.3",
+		"mcc": "460\u0000",
+		"mnc": "00\u0000",
+		"lac": "41BD\u0000",
+		"bsic": "46\u0000",
+		"rxlev": "43",
+		"rxqual": "0",
+		"total_battery_capacity": 19000,
+		"battery_direction": "1",
+		"total_consumption": "448409",
+		"dump_percentage": "99"
+	},
+	"message": "查询传感器信息成功",
+	"status": "SUCCESS"
+}

@@ -27,7 +27,7 @@
 
 		<header class="mui-bar mui-bar-nav" id="head">
 			<a class=" mui-icon mui-icon-left-nav mui-pull-left" id="DeviceDetailBack"></a>
-			<h1 class="mui-title ">设备详情</h1>
+			<h1 class="mui-title" id="chart-device-name"></h1>
 			<a href="#popover" class="mui-pull-right iconfont icon-xiugai_l"
 				style="margin-top: 5px;font-weight: 700;font-size: 24px;"></a>
 		</header>
@@ -46,6 +46,7 @@
 		<script src="../../js/echarts.common.min.js"></script>
 		<!-- 引入组件库 -->
 		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<script src="../resouce/moment.js"></script>
 
 		<script type="text/javascript">
 			var deviceTotalData = null;
@@ -55,8 +56,6 @@
 					devicedetailData: null
 				},
 				components: {
-					'bender-device': httpVueLoader('../vue-components/bender-device-content.vue'),
-					'device-detail': httpVueLoader('../vue-components/bender-devicedetail.vue'),
 					'bnender-chart': httpVueLoader('../vue-components/bnener-chart.vue'),
 				}
 			});
@@ -79,6 +78,7 @@
 					}
 				})
 			})
+			$('#chart-device-name').html(localStorage.getItem('DeveciName'))
 		</script>
 
 

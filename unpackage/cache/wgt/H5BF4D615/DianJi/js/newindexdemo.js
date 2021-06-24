@@ -42,10 +42,27 @@ $(function() {
 					}
 					localStorage.setItem('DeveciId', items.devices_no);
 					localStorage.setItem('DeveciName', items.devices_name);
-					mui.openWindow({
-						url: 'newDataChart.html',
-						id: 'newDataChart.html'
-					});
+
+					if (items.devices_type == 'T') {
+						mui.openWindow({
+							url: 'Bender/html/bnenderChart.html',
+							id: 'bnenderChart.html'
+						});
+					} else {
+						mui.openWindow({
+							url: 'newDataChart.html',
+							id: 'newDataChart.html'
+						});
+					}
+
+					console.log('item===', JSON.stringify(items))
+
+
+
+					// mui.openWindow({
+					// 	url: 'Bender/html/bnenderChart.html',
+					// 	id: 'bnenderChart.html'
+					// });
 				},
 				open_detail(items) {
 					e = window.event || e;
@@ -56,10 +73,27 @@ $(function() {
 					}
 					localStorage.setItem('DeveciId', items.devices_no);
 					localStorage.enterPage = "Enter";
-					mui.openWindow({
-						url: 'DeviceDetail.html',
-						id: 'DeviceDetail.html'
-					})
+					console.log('items===', JSON.stringify(items))
+
+					if (items.devices_type == 'T') {
+						mui.openWindow({
+							url: 'Bender/html/benderDeviceDetail.html',
+							id: 'benderDeviceDetail.html'
+						})
+					} else {
+						mui.openWindow({
+							url: 'DeviceDetail.html',
+							id: 'DeviceDetail.html'
+						})
+					}
+
+
+					// mui.openWindow({
+					// 	url: 'Bender/html/benderDeviceDetail.html',
+					// 	id: 'benderDeviceDetail.html'
+					// })
+
+
 					//获取父节点的父节点 li
 					var elem = event.target.parentNode.parentNode;
 					//隐藏右滑显示
@@ -133,7 +167,8 @@ $(function() {
 										newReginListID.push(mseItem.id);
 									}
 									if (value == false) {
-										var indexPa = newReginListID.indexOf(mseItem.id);
+										var indexPa = newReginListID.indexOf(
+											mseItem.id);
 										newReginListID.splice(indexPa, 1);
 									}
 
@@ -185,7 +220,8 @@ $(function() {
 									document.getElementById(strIDS).checked = true;
 									newReginListID.push(parseInt(strIDS));
 									console.log('111111111')
-									searchDevice(strKeyWord, 0, 2, newReginListID.toString(), 1);
+									searchDevice(strKeyWord, 0, 2, newReginListID
+										.toString(), 1);
 
 								}
 							} else {
@@ -337,7 +373,7 @@ $(function() {
 				},
 				dataType: 'json',
 				success: function(res) {
-					console.log('data-list==',JSON.stringify(res))
+					console.log('data-list==', JSON.stringify(res))
 					wa.close();
 					if (res.status == "SUCCESS") {
 						if (res.data.search_list.length > 0) {
@@ -394,7 +430,8 @@ $(function() {
 					} else {
 
 						var startIndex = (indexPage - 1) * 10;
-						searchDevice(strKeyWord, startIndex, strKeyType, strRegionID, indexPage);
+						searchDevice(strKeyWord, startIndex, strKeyType, strRegionID,
+							indexPage);
 					}
 				}
 			});
@@ -539,7 +576,8 @@ $(function() {
 					} else {
 
 						var startIndex = (indexPage - 1) * 10;
-						searchDevice(strKeyWord, startIndex, strKeyType, strRegionID, indexPage);
+						searchDevice(strKeyWord, startIndex, strKeyType, strRegionID,
+							indexPage);
 					}
 				}
 			});
